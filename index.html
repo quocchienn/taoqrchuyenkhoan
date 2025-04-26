@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tạo Mã QR Chuyển Khoản</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>Tạo Mã QR Thanh Toán</h1>
+  <form id="qrForm">
+    <input type="text" id="accountName" placeholder="Tên người nhận" required>
+    <input type="text" id="accountNo" placeholder="Số tài khoản" required>
+
+    <div class="custom-select" id="bankSelect">
+      <div class="select-selected">Chọn ngân hàng</div>
+      <div class="select-items"></div>
+    </div>
+
+    <input type="number" id="amount" placeholder="Số tiền (VNĐ)">
+    <input type="text" id="description" placeholder="Nội dung chuyển khoản">
+    <button type="submit">Tạo QR</button>
+  </form>
+
+  <div id="qrCode"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
