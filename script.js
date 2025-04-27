@@ -1,16 +1,8 @@
- const banks = [
+const banks = [
   { id: "ABB", name: "ABBANK", logo: "https://i.postimg.cc/7hmLngvc/ABBANK.png" },
   { id: "CAKE", name: "CAKE Bank", logo: "https://api.vietqr.io/img/CAKE.png" },
   { id: "CIMB", name: "CIMB Bank", logo: "https://api.vietqr.io/img/CIMB.png" },
   { id: "ACB", name: "ACB", logo: "https://api.vietqr.io/img/ACB.png" },
-    { id: "MOMO", name: "Momo", logo: "https://i.postimg.cc/HWcHZDwn/Mo-Mo-Tr-th-T-i-ch-nh-v-i-AI.png" },
-  { id: "ZALOPAY", name: "ZaloPay", logo: "https://i.postimg.cc/mD0xfkYD/Zalopay-Thanh-To-n-T-ch-Th-ng.png" },
-  { id: "VIETTELMONEY", name: "Viettel Money", logo: "https://api.vietqr.io/img/VIETTELMONEY.png" },
-  { id: "VNPTPAY", name: "VNPT Pay", logo: "https://i.postimg.cc/4NP8pnY9/VNPT-Money.png" },
-  { id: "SHOPEEPAY", name: "ShopeePay", logo: "https://i.postimg.cc/bwvmg8nF/Shopee-Pay-V-v-n-d-ch-v.png" },
-  { id: "ALRPAY", name: "AlrPay", logo: "https://i.postimg.cc/zfspqgc9/Alipay-Simplify-Your-Life.png" }, // Airpay cũ (ShopeePay bây giờ)
-  { id: "VNPAY", name: "VNPay", logo: "https://i.postimg.cc/TwjjGHmD/VNPAY-App.png" },
-  { id: "PAYOO", name: "Payoo", logo: "https://i.postimg.cc/rm2GBLdT/Payoo.png" },
   { id: "AGRIBANK", name: "Agribank", logo: "https://i.postimg.cc/B65btrmJ/Agribank-Plus.png" },
   { id: "BACABANK", name: "Bac A Bank", logo: "https://i.postimg.cc/63xTWWLH/BAC-A-BANK-Mobile-Banking.png" },
   { id: "BAOVIETBANK", name: "Bảo Việt Bank", logo: "https://i.postimg.cc/bwMs5HGf/IMG-4553.png" },
@@ -49,47 +41,102 @@
   { id: "VRB", name: "VRB", logo: "https://api.vietqr.io/img/VRB.png" },
   { id: "WOORIBANK", name: "Woori Bank", logo: "https://i.postimg.cc/h40pThwq/Woori-WON-Vietnam.png" }
 ];
+  const wallets = [
+    { id: "MOMO", name: "Momo", logo: "https://i.postimg.cc/HWcHZDwn/Mo-Mo-Tr-th-T-i-ch-nh-v-i-AI.png" },
+    { id: "ZALOPAY", name: "ZaloPay", logo: "https://i.postimg.cc/mD0xfkYD/Zalopay-Thanh-To-n-T-ch-Th-ng.png" },
+    { id: "VIETTELMONEY", name: "Viettel Money", logo: "https://api.vietqr.io/img/VIETTELMONEY.png" },
+    { id: "VNPTPAY", name: "VNPT Pay", logo: "https://i.postimg.cc/4NP8pnY9/VNPT-Money.png" },
+    { id: "SHOPEEPAY", name: "ShopeePay", logo: "https://i.postimg.cc/bwvmg8nF/Shopee-Pay-V-v-n-d-ch-v.png" },
+    { id: "ALRPAY", name: "AlrPay", logo: "https://i.postimg.cc/zfspqgc9/Alipay-Simplify-Your-Life.png" },
+    { id: "VNPAY", name: "VNPay", logo: "https://i.postimg.cc/TwjjGHmD/VNPAY-App.png" },
+    { id: "PAYOO", name: "Payoo", logo: "https://i.postimg.cc/rm2GBLdT/Payoo.png" }
+  ];
 
-const bankSelect = document.getElementById('bankSelect');
-const selectSelected = bankSelect.querySelector('.select-selected');
-const selectItems = bankSelect.querySelector('.select-items');
+  let selectedBank = null;
+  let selectedWallet = null;
 
-banks.forEach(bank => {
-  const div = document.createElement('div');
-  div.innerHTML = `<img src="${bank.logo}" alt="${bank.name}">${bank.name}`;
-  div.dataset.bankId = bank.id;
-  div.onclick = function() {
-    selectSelected.innerHTML = `<img src="${bank.logo}" alt="${bank.name}">${bank.name}`;
-    selectSelected.dataset.bankId = bank.id;
-    selectItems.style.display = 'none';
-  };
-  selectItems.appendChild(div);
-});
+  function createCustomSelect(items, containerId, type) {
+    const select = document.getElementById(containerId);
+    const selected = select.querySelector('.select-selected');
+    const optionsContainer = select.querySelector('.select-items');
 
-selectSelected.onclick = function() {
-  selectItems.style.display = selectItems.style.display === 'flex' ? 'none' : 'flex';
-};
+    function renderOptions() {
+      optionsContainer.innerHTML = '';
+      items.forEach(item => {
+        const option = document.createElement('div');
+        option.innerHTML = `<img src="${item.logo}" alt="${item.name}">${item.name}`;
+        option.addEventListener('click', () => {
+          selected.innerHTML = `<img src="${item.logo}" alt="${item.name}">${item.name}`;
+          optionsContainer.style.display = 'none';
 
-document.addEventListener('click', function(e) {
-  if (!bankSelect.contains(e.target)) {
-    selectItems.style.display = 'none';
+          if (type === 'bank') {
+            selectedBank = item;
+            selectedWallet = null;
+            document.querySelector('#walletSelect .select-selected').innerHTML = "Chọn ví điện tử";
+            createCustomSelect(wallets, 'walletSelect', 'wallet');
+          } else if (type === 'wallet') {
+            selectedWallet = item;
+            selectedBank = null;
+            document.querySelector('#bankSelect .select-selected').innerHTML = "Chọn ngân hàng";
+            createCustomSelect(banks, 'bankSelect', 'bank');
+          }
+        });
+        optionsContainer.appendChild(option);
+      });
+    }
+
+    selected.onclick = () => {
+      const isVisible = optionsContainer.style.display === 'flex';
+      document.querySelectorAll('.select-items').forEach(el => el.style.display = 'none');
+      if (isVisible) {
+        optionsContainer.style.opacity = '0';
+        optionsContainer.style.transform = 'scaleY(0)';
+      } else {
+        optionsContainer.style.display = 'flex';
+        optionsContainer.style.opacity = '1';
+        optionsContainer.style.transform = 'scaleY(1)';
+      }
+    };
+
+    renderOptions();
   }
-});
 
-document.getElementById('qrForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const accountName = document.getElementById('accountName').value.trim();
-  const accountNo = document.getElementById('accountNo').value.trim();
-  const bankId = selectSelected.dataset.bankId;
-  const amount = document.getElementById('amount').value.trim();
-  const description = document.getElementById('description').value.trim();
+  createCustomSelect(banks, 'bankSelect', 'bank');
+  createCustomSelect(wallets, 'walletSelect', 'wallet');
 
-  if (!accountName || !accountNo || !bankId) {
-    alert('Vui lòng nhập đầy đủ thông tin.');
+  window.addEventListener('click', function(e) {
+    document.querySelectorAll('.select-items').forEach(item => {
+      if (!item.parentElement.contains(e.target)) {
+        item.style.display = 'none';
+      }
+    });
+  });
+
+  document.getElementById('qrForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    // Add code to generate QR Code...
+   const accountName = document.getElementById('accountName').value;
+  const accountNo = document.getElementById('accountNo').value;
+  const amount = document.getElementById('amount').value;
+  const description = document.getElementById('description').value;
+
+  const qrCodeDiv = document.getElementById('qrCode');
+  let qrUrl = '';
+
+  if (selectedBank) {
+    qrUrl = `https://img.vietqr.io/image/${selectedBank.id}-${accountNo}-compact.png?amount=${amount}&addInfo=${encodeURIComponent(description)}&accountName=${encodeURIComponent(accountName)}`;
+  } else if (selectedWallet) {
+    if (selectedWallet.id === 'MOMO') {
+      qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=momo://?action=transfer&amount=${amount}&receiver=${accountNo}&comment=${encodeURIComponent(description)}&size=250x250`;
+    } else if (selectedWallet.id === 'ZALOPAY') {
+      qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=zalopay://?amount=${amount}&receiver=${accountNo}&comment=${encodeURIComponent(description)}&size=250x250`;
+    } else {
+      qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${selectedWallet.name}: ${accountNo} - ${accountName} - ${description} - ${amount}&size=250x250`;
+    }
+  } else {
+    alert("Vui lòng chọn ngân hàng hoặc ví điện tử!");
     return;
   }
 
-  const url = `https://img.vietqr.io/image/${bankId}-${accountNo}-compact2.png?accountName=${encodeURIComponent(accountName)}${amount ? `&amount=${amount}` : ''}${description ? `&addInfo=${encodeURIComponent(description)}` : ''}`;
-
-  document.getElementById('qrCode').innerHTML = `<img src="${url}" alt="QR Code">`;
+  qrCodeDiv.innerHTML = `<img src="${qrUrl}" alt="QR Code">`;
 });
