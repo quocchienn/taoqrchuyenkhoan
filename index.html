@@ -7,26 +7,39 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div class="container">
-  <h1>Tạo Mã QR Thanh Toán</h1>
-  <form id="qrForm">
-    <input type="text" id="accountName" placeholder="Tên người nhận" required>
-    <input type="text" id="accountNo" placeholder="Số tài khoản" required>
-
-    <div class="custom-select" id="bankSelect">
-      <div class="select-selected">Chọn ngân hàng</div>
-      <div class="select-items"></div>
+  <div class="popup" id="welcomePopup">
+    <div class="popup-content">
+      <h2>Chào Mừng Bạn!</h2>
+      <p>Chúng tôi rất vui khi bạn ghé thăm trang web của chúng tôi. Hãy khám phá các tính năng tuyệt vời mà chúng tôi mang đến cho bạn.<br>Xin lưu ý rằng đây ko phải web fake bill mà là web tạo qr thanh toán nhanh được dùng các api của vietqr và nó hoàn toàn hợp pháp</p>
+      <button onclick="closePopup()">Đóng</button>
     </div>
+  </div>
+  
+  <div class="container">
+    <h1>Tạo Mã QR Thanh Toán</h1>
+    <form id="qrForm">
+      <input type="text" id="accountName" placeholder="Tên người nhận" required>
+      <input type="text" id="accountNo" placeholder="Số tài khoản" required>
+  
+      <div class="custom-select" id="bankSelect">
+        <div class="select-selected">Chọn ngân hàng</div>
+        <div class="select-items"></div>
+      </div>
+  
+      <div class="custom-select" id="walletSelect">
+        <div class="select-selected">Chọn ví điện tử</div>
+        <div class="select-items"></div>
+      </div>
+  
+      <input type="number" id="amount" placeholder="Số tiền (VNĐ)">
+      <input type="text" id="description" placeholder="Nội dung chuyển khoản">
+      <button type="submit">Tạo QR</button>
+    </form>
+  
+    <div id="qrCode"></div>
+  </div>
 
-    <input type="number" id="amount" placeholder="Số tiền (VNĐ)">
-    <input type="text" id="description" placeholder="Nội dung chuyển khoản">
-    <button type="submit">Tạo QR</button>
-  </form>
-
-  <div id="qrCode"></div>
-</div>
-
-<script src="script.js"></script>
+  <script src="popup.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
