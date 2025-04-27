@@ -1,4 +1,4 @@
-const banks = [
+ const banks = [
   { id: "ABB", name: "ABBANK", logo: "https://i.postimg.cc/7hmLngvc/ABBANK.png" },
   { id: "CAKE", name: "CAKE Bank", logo: "https://api.vietqr.io/img/CAKE.png" },
   { id: "CIMB", name: "CIMB Bank", logo: "https://api.vietqr.io/img/CIMB.png" },
@@ -41,6 +41,7 @@ const banks = [
   { id: "VRB", name: "VRB", logo: "https://api.vietqr.io/img/VRB.png" },
   { id: "WOORIBANK", name: "Woori Bank", logo: "https://i.postimg.cc/h40pThwq/Woori-WON-Vietnam.png" }
 ];
+
   const wallets = [
     { id: "MOMO", name: "Momo", logo: "https://i.postimg.cc/HWcHZDwn/Mo-Mo-Tr-th-T-i-ch-nh-v-i-AI.png" },
     { id: "ZALOPAY", name: "ZaloPay", logo: "https://i.postimg.cc/mD0xfkYD/Zalopay-Thanh-To-n-T-ch-Th-ng.png" },
@@ -140,3 +141,11 @@ const banks = [
 
   qrCodeDiv.innerHTML = `<img src="${qrUrl}" alt="QR Code">`;
 });
+// popup.js
+window.onload = function() {
+  document.getElementById("welcomePopup").style.display = "flex";
+};
+
+function closePopup() {
+  document.getElementById("welcomePopup").style.display = "none";
+}
